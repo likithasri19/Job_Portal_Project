@@ -1,0 +1,12 @@
+D:\C#\JobEntities\bin\Debug\net8.0\JobRepository.deps.json
+D:\C#\JobEntities\bin\Debug\net8.0\JobRepository.dll
+D:\C#\JobEntities\bin\Debug\net8.0\JobRepository.pdb
+D:\C#\JobEntities\obj\Debug\net8.0\JobRepository.GeneratedMSBuildEditorConfig.editorconfig
+D:\C#\JobEntities\obj\Debug\net8.0\JobRepository.AssemblyInfoInputs.cache
+D:\C#\JobEntities\obj\Debug\net8.0\JobRepository.AssemblyInfo.cs
+D:\C#\JobEntities\obj\Debug\net8.0\JobRepository.csproj.CoreCompileInputs.cache
+D:\C#\JobEntities\obj\Debug\net8.0\JobRepository.dll
+D:\C#\JobEntities\obj\Debug\net8.0\refint\JobRepository.dll
+D:\C#\JobEntities\obj\Debug\net8.0\JobRepository.pdb
+D:\C#\JobEntities\obj\Debug\net8.0\ref\JobRepository.dll
+D:\C#\JobEntities\obj\Debug\net8.0\JobRepository.csproj.AssemblyReference.cache

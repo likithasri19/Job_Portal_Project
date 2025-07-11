@@ -1,0 +1,15 @@
+D:\C#\JobService\bin\Debug\net8.0\JobService.deps.json
+D:\C#\JobService\bin\Debug\net8.0\JobService.dll
+D:\C#\JobService\bin\Debug\net8.0\JobService.pdb
+D:\C#\JobService\bin\Debug\net8.0\JobRepository.dll
+D:\C#\JobService\bin\Debug\net8.0\JobRepository.pdb
+D:\C#\JobService\obj\Debug\net8.0\JobService.csproj.AssemblyReference.cache
+D:\C#\JobService\obj\Debug\net8.0\JobService.GeneratedMSBuildEditorConfig.editorconfig
+D:\C#\JobService\obj\Debug\net8.0\JobService.AssemblyInfoInputs.cache
+D:\C#\JobService\obj\Debug\net8.0\JobService.AssemblyInfo.cs
+D:\C#\JobService\obj\Debug\net8.0\JobService.csproj.CoreCompileInputs.cache
+D:\C#\JobService\obj\Debug\net8.0\JobService.csproj.Up2Date
+D:\C#\JobService\obj\Debug\net8.0\JobService.dll
+D:\C#\JobService\obj\Debug\net8.0\refint\JobService.dll
+D:\C#\JobService\obj\Debug\net8.0\JobService.pdb
+D:\C#\JobService\obj\Debug\net8.0\ref\JobService.dll

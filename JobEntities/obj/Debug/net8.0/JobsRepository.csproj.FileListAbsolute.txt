@@ -1,0 +1,4 @@
+D:\C#\JobEntities\obj\Debug\net8.0\JobsRepository.GeneratedMSBuildEditorConfig.editorconfig
+D:\C#\JobEntities\obj\Debug\net8.0\JobsRepository.AssemblyInfoInputs.cache
+D:\C#\JobEntities\obj\Debug\net8.0\JobsRepository.AssemblyInfo.cs
+D:\C#\JobEntities\obj\Debug\net8.0\JobsRepository.csproj.CoreCompileInputs.cache
