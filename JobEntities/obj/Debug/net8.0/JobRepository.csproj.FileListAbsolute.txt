@@ -10,3 +10,15 @@ D:\C#\JobEntities\obj\Debug\net8.0\refint\JobRepository.dll
 D:\C#\JobEntities\obj\Debug\net8.0\JobRepository.pdb
 D:\C#\JobEntities\obj\Debug\net8.0\ref\JobRepository.dll
 D:\C#\JobEntities\obj\Debug\net8.0\JobRepository.csproj.AssemblyReference.cache
+D:\csharp\JobEntities\bin\Debug\net8.0\JobRepository.deps.json
+D:\csharp\JobEntities\bin\Debug\net8.0\JobRepository.dll
+D:\csharp\JobEntities\bin\Debug\net8.0\JobRepository.pdb
+D:\csharp\JobEntities\obj\Debug\net8.0\JobRepository.csproj.AssemblyReference.cache
+D:\csharp\JobEntities\obj\Debug\net8.0\JobRepository.GeneratedMSBuildEditorConfig.editorconfig
+D:\csharp\JobEntities\obj\Debug\net8.0\JobRepository.AssemblyInfoInputs.cache
+D:\csharp\JobEntities\obj\Debug\net8.0\JobRepository.AssemblyInfo.cs
+D:\csharp\JobEntities\obj\Debug\net8.0\JobRepository.csproj.CoreCompileInputs.cache
+D:\csharp\JobEntities\obj\Debug\net8.0\JobRepository.dll
+D:\csharp\JobEntities\obj\Debug\net8.0\refint\JobRepository.dll
+D:\csharp\JobEntities\obj\Debug\net8.0\JobRepository.pdb
+D:\csharp\JobEntities\obj\Debug\net8.0\ref\JobRepository.dll

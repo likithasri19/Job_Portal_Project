@@ -4765,11 +4765,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\C#\\JobPortal\\JobPortal.csproj",
+      "projectUniqueName": "D:\\csharp\\JobPortal\\JobPortal.csproj",
       "projectName": "JobPortal",
-      "projectPath": "D:\\C#\\JobPortal\\JobPortal.csproj",
+      "projectPath": "D:\\csharp\\JobPortal\\JobPortal.csproj",
       "packagesPath": "C:\\Users\\I7735\\.nuget\\packages\\",
-      "outputPath": "D:\\C#\\JobPortal\\obj\\",
+      "outputPath": "D:\\csharp\\JobPortal\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -4791,11 +4791,11 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "D:\\C#\\JobEntities\\JobRepository.csproj": {
-              "projectPath": "D:\\C#\\JobEntities\\JobRepository.csproj"
+            "D:\\csharp\\JobEntities\\JobRepository.csproj": {
+              "projectPath": "D:\\csharp\\JobEntities\\JobRepository.csproj"
             },
-            "D:\\C#\\JobService\\JobService.csproj": {
-              "projectPath": "D:\\C#\\JobService\\JobService.csproj"
+            "D:\\csharp\\JobService\\JobService.csproj": {
+              "projectPath": "D:\\csharp\\JobService\\JobService.csproj"
             }
           }
         }
@@ -4846,7 +4846,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.301/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.302/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

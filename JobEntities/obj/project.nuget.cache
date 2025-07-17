@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "gHLB5vbH9Mw=",
+  "dgSpecHash": "HtwKwgoBLK4=",
   "success": true,
-  "projectFilePath": "D:\\C#\\JobEntities\\JobRepository.csproj",
+  "projectFilePath": "D:\\csharp\\JobEntities\\JobRepository.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\I7735\\.nuget\\packages\\microsoft.entityframeworkcore\\9.0.6\\microsoft.entityframeworkcore.9.0.6.nupkg.sha512",
     "C:\\Users\\I7735\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\9.0.6\\microsoft.entityframeworkcore.abstractions.9.0.6.nupkg.sha512",
