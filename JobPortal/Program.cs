@@ -18,6 +18,10 @@ builder.Services.AddScoped<IJobRepo, JobsRepository>();
 builder.Services.AddScoped<IJobService, JobsService>();
 builder.Services.AddScoped<IUserRepo, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IDepartmentRepo,DepartmentRepository>();  
+builder.Services.AddScoped<IDepartmentService,DepartmentService>();
+builder.Services.AddScoped<ILocationRepo,LocationRepository>();
+builder.Services.AddScoped<ILocationService,LocationService>(); 
 
 // Add Swagger/OpenAPI support
 builder.Services.AddEndpointsApiExplorer();
@@ -32,6 +36,7 @@ builder.Services.AddCors(options =>
                .AllowAnyHeader();
     });
 });
+
 
 var app = builder.Build();
 

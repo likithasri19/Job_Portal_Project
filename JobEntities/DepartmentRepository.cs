@@ -1,41 +1,45 @@
 ﻿using JobRepository.Model;
 using JobRepository.Repository;
-using System;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JobRepository
 {
     public class DepartmentRepository : IDepartmentRepo
     {
-        private static List<Department> departments = new List<Department>();
+        private readonly JobPortalContext _context;
+
+        public DepartmentRepository(JobPortalContext context)
+        {
+            _context = context;
+        }
 
         public void AddDepartment(Department department)
         {
-            departments.Add(department);
+            _context.Departments.Add(department);
+            _context.SaveChanges();
         }
 
-        public List<Department> GetAllDepartments() => departments;
+        public List<Department> GetAllDepartments()
+        {
+            return _context.Departments.ToList();
+        }
 
         public Department GetDepartmentById(int id)
         {
-            return departments.FirstOrDefault(d => d.DepartmentID == id);
+            return _context.Departments.FirstOrDefault(d => d.DepartmentID == id);
         }
 
         public Department GetDepartmentByName(string name)
         {
-            return departments.FirstOrDefault(d => d.DepartmentName == name);
+            return _context.Departments.FirstOrDefault(d => d.DepartmentName == name);
         }
 
         public void UpdateDepartment(Department department)
         {
-            var existingDept = GetDepartmentById(department.DepartmentID);
-            if (existingDept != null)
-            {
-                existingDept.DepartmentName = department.DepartmentName;
-            }
+            _context.Departments.Update(department);
+            _context.SaveChanges();
         }
 
         public void DeleteDepartment(int id)
@@ -43,9 +47,9 @@ namespace JobRepository
             var department = GetDepartmentById(id);
             if (department != null)
             {
-                departments.Remove(department);
+                _context.Departments.Remove(department);
+                _context.SaveChanges();
             }
         }
     }
-
 }

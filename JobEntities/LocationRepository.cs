@@ -1,41 +1,45 @@
 ﻿using JobRepository.Model;
 using JobRepository.Repository;
-using System;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JobRepository
 {
     public class LocationRepository : ILocationRepo
     {
-        private static List<Location> locations = new List<Location>();
+        private readonly JobPortalContext _context;
+
+        public LocationRepository(JobPortalContext context)
+        {
+            _context = context;
+        }
 
         public void AddLocation(Location location)
         {
-            locations.Add(location);
+            _context.Locations.Add(location);
+            _context.SaveChanges();
         }
 
-        public List<Location> GetAllLocations() => locations;
+        public List<Location> GetAllLocations()
+        {
+            return _context.Locations.ToList();
+        }
 
         public Location GetLocationById(int id)
         {
-            return locations.FirstOrDefault(l => l.LocationID == id);
+            return _context.Locations.FirstOrDefault(l => l.LocationID == id);
         }
 
         public Location GetLocationByName(string name)
         {
-            return locations.FirstOrDefault(l => l.LocationName == name);
+            return _context.Locations.FirstOrDefault(l => l.LocationName == name);
         }
 
         public void UpdateLocation(Location location)
         {
-            var existingLoc = GetLocationById(location.LocationID);
-            if (existingLoc != null)
-            {
-                existingLoc.LocationName = location.LocationName;
-            }
+            _context.Locations.Update(location);
+            _context.SaveChanges();
         }
 
         public void DeleteLocation(int id)
@@ -43,10 +47,9 @@ namespace JobRepository
             var location = GetLocationById(id);
             if (location != null)
             {
-                locations.Remove(location);
+                _context.Locations.Remove(location);
+                _context.SaveChanges();
             }
         }
     }
-
-
 }

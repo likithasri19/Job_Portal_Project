@@ -1,52 +1,55 @@
 ﻿using JobRepository.Model;
 using JobRepository.Repository;
-using System;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JobRepository
 {
     public class ApplicationRepository : IApplicationRepo
     {
-        private static List<Application> applications = new List<Application>();
+        private readonly JobPortalContext _context;
+
+        public ApplicationRepository(JobPortalContext context)
+        {
+            _context = context;
+        }
 
         public void AddApplication(Application application)
         {
-            applications.Add(application);
+            _context.Applications.Add(application);
+            _context.SaveChanges();
         }
 
-        public List<Application> GetAllApplications() => applications;
+        public List<Application> GetAllApplications()
+        {
+            return _context.Applications.ToList();
+        }
 
         public Application GetApplicationById(int id)
         {
-            return applications.FirstOrDefault(a => a.ApplicationID == id);
+            return _context.Applications.FirstOrDefault(a => a.ApplicationID == id);
         }
 
         public List<Application> GetApplicationsByJob(int jobId)
         {
-            return applications.Where(a => a.JobID == jobId).ToList();
+            return _context.Applications.Where(a => a.JobID == jobId).ToList();
         }
 
         public List<Application> GetApplicationsByUser(int userId)
         {
-            return applications.Where(a => a.UserID == userId).ToList();
+            return _context.Applications.Where(a => a.UserID == userId).ToList();
         }
 
         public void UpdateApplication(Application application)
         {
-            var existingApp = GetApplicationById(application.ApplicationID);
-            if (existingApp != null)
-            {
-                existingApp.Status = application.Status;
-                existingApp.CoverLetter = application.CoverLetter;
-            }
+            _context.Applications.Update(application);
+            _context.SaveChanges();
         }
 
         public bool HasUserApplied(int userId, int jobId)
         {
-            return applications.Any(a => a.UserID == userId && a.JobID == jobId);
+            return _context.Applications.Any(a => a.UserID == userId && a.JobID == jobId);
         }
     }
 }
