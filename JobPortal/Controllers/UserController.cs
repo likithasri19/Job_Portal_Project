@@ -3,6 +3,7 @@ using JobService.Service;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace JobPortal.Controllers
 {
@@ -17,23 +18,46 @@ namespace JobPortal.Controllers
             _userService = userService;
         }
 
-        // GET: api/user
+        // ✅ GET: api/user - Returns flattened UserDTO
         [HttpGet]
-        public ActionResult<List<User>> GetAllUsers()
+        public ActionResult<List<UserDTO>> GetAllUsers()
         {
             var users = _userService.GetAllUsers();
-            return Ok(users);
+
+            var userDTOs = users.Select(u => new UserDTO
+            {
+                UserID = u.UserID,
+                Name = u.Name,
+                Email = u.Email,
+                Role = u.Role,
+                JoinDate = u.JoinDate,
+                DepartmentName = u.Department != null ? u.Department.DepartmentName : null,
+                ManagerName = u.Manager != null ? u.Manager.ManagerName : null
+            }).ToList();
+
+            return Ok(userDTOs);
         }
 
-        // GET: api/user/{id}
+        // ✅ GET: api/user/{id} - Returns flattened UserDTO
         [HttpGet("{id}")]
-        public ActionResult<User> GetUserById(int id)
+        public ActionResult<UserDTO> GetUserById(int id)
         {
             var user = _userService.GetUserById(id);
             if (user == null)
                 return NotFound(new { message = "User not found" });
 
-            return Ok(user);
+            var userDTO = new UserDTO
+            {
+                UserID = user.UserID,
+                Name = user.Name,
+                Email = user.Email,
+                Role = user.Role,
+                JoinDate = user.JoinDate,
+                DepartmentName = user.Department != null ? user.Department.DepartmentName : null,
+                ManagerName = user.Manager != null ? user.Manager.ManagerName : null
+            };
+
+            return Ok(userDTO);
         }
 
         // POST: api/user
@@ -105,7 +129,19 @@ namespace JobPortal.Controllers
         }
     }
 
-    // DTO used for both create and update
+    // ✅ DTO for API Output
+    public class UserDTO
+    {
+        public int UserID { get; set; }
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string Role { get; set; }
+        public DateTime JoinDate { get; set; }
+        public string DepartmentName { get; set; }
+        public string ManagerName { get; set; }
+    }
+
+    // ✅ DTO used for both Create & Update
     public class UserCreateDto
     {
         public string Name { get; set; }

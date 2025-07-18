@@ -1,8 +1,8 @@
 ﻿using JobRepository.Model;
 using JobService.Service;
 using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using System.Collections.Generic;
+using System.Linq;
 
 namespace JobPortal.Controllers
 {
@@ -11,16 +11,57 @@ namespace JobPortal.Controllers
     public class JobController : ControllerBase
     {
         private readonly IJobService _jobService;
+
         public JobController(IJobService jobService)
         {
             _jobService = jobService;
         }
 
+        // ✅ GET All Jobs (Flattened DTO)
         [HttpGet]
-        public List<Job> GetAll() => _jobService.GetAllJobs();
+        public ActionResult<List<JobDTO>> GetAll()
+        {
+            var jobs = _jobService.GetAllJobs();
 
+            var jobDTOs = jobs.Select(j => new JobDTO
+            {
+                JobID = j.JobID,
+                Title = j.Title,
+                DepartmentName = j.Department != null ? j.Department.DepartmentName : null,
+                LocationName = j.Location != null ? j.Location.LocationName : null,
+                Description = j.Description,
+                Requirements = j.Requirements,
+                Status = j.Status,
+                PostedBy = j.PostedBy,
+                PostedDate = j.PostedDate
+            }).ToList();
+
+            return Ok(jobDTOs);
+        }
+
+        // ✅ GET by ID (Flattened DTO)
         [HttpGet("{id}")]
-        public Job Get(int id) => _jobService.GetJobById(id);
+        public ActionResult<JobDTO> Get(int id)
+        {
+            var job = _jobService.GetJobById(id);
+            if (job == null)
+                return NotFound(new { message = "Job not found" });
+
+            var jobDTO = new JobDTO
+            {
+                JobID = job.JobID,
+                Title = job.Title,
+                DepartmentName = job.Department?.DepartmentName,
+                LocationName = job.Location?.LocationName,
+                Description = job.Description,
+                Requirements = job.Requirements,
+                Status = job.Status,
+                PostedBy = job.PostedBy,
+                PostedDate = job.PostedDate
+            };
+
+            return Ok(jobDTO);
+        }
 
         [HttpPost]
         public IActionResult Add(JobCreateDto jobDto)
@@ -34,7 +75,7 @@ namespace JobPortal.Controllers
                     LocationID = jobDto.LocationID,
                     Description = jobDto.Description,
                     Requirements = jobDto.Requirements,
-                    Status = true, // Default to active
+                    Status = true,
                     PostedBy = jobDto.PostedBy,
                     PostedDate = DateTime.Now
                 };
@@ -90,7 +131,21 @@ namespace JobPortal.Controllers
         }
     }
 
-    // DTO for job creation - only required fields
+    // ✅ DTO for Clean Job Response
+    public class JobDTO
+    {
+        public int JobID { get; set; }
+        public string Title { get; set; }
+        public string DepartmentName { get; set; }
+        public string LocationName { get; set; }
+        public string Description { get; set; }
+        public string Requirements { get; set; }
+        public bool Status { get; set; }
+        public string PostedBy { get; set; }
+        public DateTime PostedDate { get; set; }
+    }
+
+    // ✅ DTO for job creation
     public class JobCreateDto
     {
         public string Title { get; set; }
@@ -101,7 +156,7 @@ namespace JobPortal.Controllers
         public string PostedBy { get; set; }
     }
 
-    // DTO for job updates
+    // ✅ DTO for job updates
     public class JobUpdateDto
     {
         public string Title { get; set; }
@@ -114,4 +169,3 @@ namespace JobPortal.Controllers
         public DateTime PostedDate { get; set; }
     }
 }
-
