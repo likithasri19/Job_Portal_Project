@@ -15,21 +15,28 @@ namespace JobRepository.Model
         public int JobID { get; set; }
 
         [ForeignKey("JobID")]
-        [JsonIgnore]
         public Job Job { get; set; }
 
         public int UserID { get; set; }
 
         [ForeignKey("UserID")]
-        [JsonIgnore]
         public User User { get; set; }
+
+        public int ManagerID { get; set; }
+        [ForeignKey("ManagerID")]
+        public Manager Manager { get; set; }
 
         public DateTime ApplicationDate { get; set; }
         public bool Status { get; set; }
         public string CoverLetter { get; set; }
 
-        // Navigation
-      
+        public string ResumePath { get; set; }
+
+        public string Experience { get; set; }
+
+
+
+
     }
 
 }

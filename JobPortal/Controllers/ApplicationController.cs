@@ -1,43 +1,86 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-
 using JobRepository.Model;
 using JobService.Service;
+using System;
+using System.IO;
 
-namespace JobPortal.Controllers { 
+namespace JobPortal.Controllers
+{
     [ApiController]
     [Route("api/[controller]")]
     public class ApplicationController : ControllerBase
     {
         private readonly IApplicationService _applicationService;
+        private readonly IWebHostEnvironment _env;
 
-        public ApplicationController(IApplicationService applicationService)
+        public ApplicationController(IApplicationService applicationService, IWebHostEnvironment env)
         {
             _applicationService = applicationService;
+            _env = env;
         }
 
-        [HttpPost("submit")]
-        public IActionResult SubmitApplication(int userId, int jobId, string coverLetter)
+        // ✅ SUBMIT application
+        [HttpPost]
+        public IActionResult SubmitApplication([FromForm] Application application, IFormFile? resume)
         {
             try
             {
-                _applicationService.SubmitApplication(userId, jobId, coverLetter);
-                return Ok("Application submitted successfully.");
+                // 📝 Check if user has already applied
+                if (_applicationService.HasUserApplied(application.UserID, application.JobID))
+                {
+                    return BadRequest("You have already applied for this job.");
+                }
+
+                // 📂 Save Resume if uploaded
+                if (resume != null && resume.Length > 0)
+                {
+                    var uploadsFolder = Path.Combine(_env.WebRootPath ?? "wwwroot", "resumes");
+
+                    if (!Directory.Exists(uploadsFolder))
+                        Directory.CreateDirectory(uploadsFolder);
+
+                    var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(resume.FileName);
+                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        resume.CopyTo(fileStream);
+                    }
+
+                    application.ResumePath = "/resumes/" + uniqueFileName;
+                }
+
+                // 📅 Set date and initial status
+                application.ApplicationDate = DateTime.UtcNow;
+                application.Status = false;
+
+                // 🖊️ Save application and send notification
+                _applicationService.SubmitApplication(application);
+
+                return Ok(new
+                {
+                    message = "Application submitted successfully.",
+                    applicationId = application.ApplicationID
+                });
             }
-            catch (InvalidOperationException ex)
+            catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(500, $"Error: {ex.Message}");
             }
         }
 
+        // ✅ GET all applications (Admin use case)
         [HttpGet("all")]
-        public ActionResult<List<Application>> GetAllApplications()
+        public IActionResult GetAllApplications()
         {
-            return Ok(_applicationService.GetAllApplications());
+            var apps = _applicationService.GetAllApplications();
+            return Ok(apps);
         }
 
+        // ✅ GET application by ID
         [HttpGet("{id}")]
-        public ActionResult<Application> GetApplicationById(int id)
+        public IActionResult GetApplicationById(int id)
         {
             var app = _applicationService.GetApplicationById(id);
             if (app == null)
@@ -46,35 +89,40 @@ namespace JobPortal.Controllers {
             return Ok(app);
         }
 
+        // ✅ GET applications for a specific user
         [HttpGet("user/{userId}")]
-        public ActionResult<List<Application>> GetUserApplications(int userId)
+        public IActionResult GetUserApplications(int userId)
         {
-            return Ok(_applicationService.GetUserApplications(userId));
+            var userApps = _applicationService.GetUserApplications(userId);
+            return Ok(userApps);
         }
 
+        // ✅ GET applications for a specific job
         [HttpGet("job/{jobId}")]
-        public ActionResult<List<Application>> GetJobApplications(int jobId)
+        public IActionResult GetJobApplications(int jobId)
         {
-            return Ok(_applicationService.GetJobApplications(jobId));
+            var jobApps = _applicationService.GetJobApplications(jobId);
+            return Ok(jobApps);
         }
 
+        // ✅ UPDATE application status (approved/rejected)
         [HttpPut("{id}/status")]
-        public IActionResult UpdateApplicationStatus(int id, [FromQuery] bool status)
+        public IActionResult UpdateStatus(int id, [FromQuery] bool status)
         {
             var app = _applicationService.GetApplicationById(id);
             if (app == null)
                 return NotFound($"Application with ID {id} not found.");
 
             _applicationService.UpdateApplicationStatus(id, status);
-            return Ok("Application status updated successfully.");
+            return Ok(new { message = "Status updated." });
         }
 
+        // ✅ Check if user has already applied to job
         [HttpGet("has-applied")]
-        public IActionResult HasUserApplied(int userId, int jobId)
+        public IActionResult HasUserApplied([FromQuery] int userId, [FromQuery] int jobId)
         {
-            bool hasApplied = _applicationService.HasUserApplied(userId, jobId);
-            return Ok(hasApplied);
+            var exists = _applicationService.HasUserApplied(userId, jobId);
+            return Ok(exists);
         }
     }
 }
-

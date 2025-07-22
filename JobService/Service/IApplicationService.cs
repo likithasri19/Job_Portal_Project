@@ -9,7 +9,7 @@ namespace JobService.Service
 {
     public interface IApplicationService
     {
-        void SubmitApplication(int userId, int jobId, string coverLetter);
+        void SubmitApplication(Application application);
         List<Application> GetAllApplications();
         Application GetApplicationById(int id);
         List<Application> GetUserApplications(int userId);

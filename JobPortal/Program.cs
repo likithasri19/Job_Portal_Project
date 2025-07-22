@@ -22,6 +22,12 @@ builder.Services.AddScoped<IDepartmentRepo,DepartmentRepository>();
 builder.Services.AddScoped<IDepartmentService,DepartmentService>();
 builder.Services.AddScoped<ILocationRepo,LocationRepository>();
 builder.Services.AddScoped<ILocationService,LocationService>(); 
+builder.Services.AddScoped<IApplicationRepo, ApplicationRepository>();
+builder.Services.AddScoped<IApplicationService, ApplicationService>();
+builder.Services.AddScoped<IManagerRepo, ManagerRepository>();
+builder.Services.AddScoped<IManagerService, ManagerService>();
+builder.Services.AddScoped<INotificationRepo, NotificationRepository>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
 
 // Add Swagger/OpenAPI support
 builder.Services.AddEndpointsApiExplorer();

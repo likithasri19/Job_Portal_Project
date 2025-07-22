@@ -21,7 +21,7 @@ namespace JobRepository
 
         public DbSet<Manager> Managers { get; set; }
 
-
+        public DbSet<Notification> Notifications { get; set; }
         public DbSet<User> Users { get; set; }
 
 

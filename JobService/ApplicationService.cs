@@ -20,23 +20,19 @@ namespace JobService
             _notificationService = notificationService;
         }
 
-        public void SubmitApplication(int userId, int jobId, string coverLetter)
+        // ✅ UPDATED: Accepts full application details
+        public void SubmitApplication(Application application)
         {
-            if (_applicationRepo.HasUserApplied(userId, jobId))
+            if (_applicationRepo.HasUserApplied(application.UserID, application.JobID))
             {
                 throw new InvalidOperationException("User has already applied for this job");
             }
 
-            var application = new Application
-            {
-                UserID = userId,
-                JobID = jobId,
-                CoverLetter = coverLetter,
-                ApplicationDate = DateTime.Now,
-                Status = false
-            };
+            application.ApplicationDate = DateTime.Now;
+            application.Status = false;
 
             _applicationRepo.AddApplication(application);
+
             _notificationService.NotifyApplicationSubmitted(application.ApplicationID);
         }
 
@@ -75,6 +71,7 @@ namespace JobService
             return _applicationRepo.HasUserApplied(userId, jobId);
         }
     }
+
 
 
 }

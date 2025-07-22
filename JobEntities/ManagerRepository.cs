@@ -1,51 +1,51 @@
-﻿using JobRepository.Model;
+﻿using JobRepository;
+using JobRepository.Model;
 using JobRepository.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace JobRepository
+public class ManagerRepository : IManagerRepo
 {
-    public class ManagerRepository : IManagerRepo
+    private readonly JobPortalContext _context;
+    public ManagerRepository(JobPortalContext context)
     {
-        private static List<Manager> managers = new List<Manager>();
+        _context = context;
+    }
 
-        public void AddManager(Manager manager)
+    public void AddManager(Manager manager)
+    {
+        _context.Managers.Add(manager);
+        _context.SaveChanges();
+    }
+
+    public List<Manager> GetAllManagers() => _context.Managers.ToList();
+
+    public Manager GetManagerById(int id)
+    {
+        return _context.Managers.FirstOrDefault(m => m.ManagerID == id);
+    }
+
+    public Manager GetManagerByEmail(string email)
+    {
+        return _context.Managers.FirstOrDefault(m => m.Email == email);
+    }
+
+    public void UpdateManager(Manager manager)
+    {
+        var existing = _context.Managers.FirstOrDefault(m => m.ManagerID == manager.ManagerID);
+        if (existing != null)
         {
-            managers.Add(manager);
+            existing.ManagerName = manager.ManagerName;
+            existing.Email = manager.Email;
+            _context.SaveChanges();
         }
+    }
 
-        public List<Manager> GetAllManagers() => managers;
-
-        public Manager GetManagerById(int id)
+    public void DeleteManager(int id)
+    {
+        var manager = _context.Managers.FirstOrDefault(m => m.ManagerID == id);
+        if (manager != null)
         {
-            return managers.FirstOrDefault(m => m.ManagerID == id);
-        }
-
-        public Manager GetManagerByEmail(string email)
-        {
-            return managers.FirstOrDefault(m => m.Email == email);
-        }
-
-        public void UpdateManager(Manager manager)
-        {
-            var existing = GetManagerById(manager.ManagerID);
-            if (existing != null)
-            {
-                existing.ManagerName = manager.ManagerName;
-                existing.Email = manager.Email;
-            }
-        }
-
-        public void DeleteManager(int id)
-        {
-            var manager = GetManagerById(id);
-            if (manager != null)
-            {
-                managers.Remove(manager);
-            }
+            _context.Managers.Remove(manager);
+            _context.SaveChanges();
         }
     }
 }
